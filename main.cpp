@@ -10,8 +10,6 @@ using namespace std;
 
     Node* START = NULL;
 
-void addNode(){
-    
-}
+
 int main(){
 }
