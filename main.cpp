@@ -1,67 +1,98 @@
-#include<iostream>
-
+#include <iostream>
 using namespace std;
 
-	struct Node  {
-	int noMhs;
-	string name;
-	Node* next;
- };
+struct Node {
+    int noMhs;
+    string name;
+    Node* next;
+};
 
-    Node* START = NULL;
+Node* START = NULL;
 
-void addNode(){
-	int nim;
+void addNode() {
+    int nim;
     string nama;
     Node* nodeBaru = new Node();
-	cout << "Masukan NIM: ";
-	cin >> nim;
-	cout << "Masukkan Nama: ";
-	cin >> nama;
-	nodeBaru->noMhs = nim;
-	nodeBaru->name = nama; 
+    cout << "Masukan NIM : ";
+    cin >> nim;
+    cout << "Masukan Nama : ";
+    cin >> nama;
+    nodeBaru -> noMhs = nim;
+    nodeBaru -> name = nama;
 
-    if (START == NULL || nim <= START->noMhs) {
-    if (START != NULL && nim == START->noMhs) {
-        cout << "NIM sudah ada" << endl;
-        return;}
-    nodeBaru->next = START;
-    START = nodeBaru;
-    return;
+    if (START == NULL || nim <= START -> noMhs){
+        if (START != NULL && nim == START -> noMhs)
+        {
+            cout << "NIM sudah ada " << endl;
+            return;
+        }
+
+        nodeBaru -> next = START;
+        START = nodeBaru;
+        return;
     }
+
     Node* previous = START;
     Node* current = START;
-    while ((current != NULL) && (nim >= current->noMhs)){
-        if (nim == current->noMhs)
+
+    while ((current != NULL) && (nim >= current -> noMhs))
+    {
+        if (nim == current -> noMhs)
         {
-            cout << "NIM sudah ads" << endl;
+            cout << "NIM sudah ada" << endl;
             return;
         }
         previous = current;
-        current = current->next;
+        current = current -> next;
     }
-    nodeBaru->next = current;
-    previous->next = nodeBaru;
+
+    nodeBaru -> next = current;
+    previous -> next = nodeBaru;
 }
-bool deleteNode(int nim) {
-    Node* current = START;
-    Node* previous = START;
-    if (serachNode(nim, previous, current) == false)
+
+bool serachNode (int nim, Node* current, Node* previous) {
+    previous = START;
+    current = START;
+    while (current != NULL && nim > current -> noMhs)
+    {
+        previous = current;
+        current = current -> next;
+    }
+
+    if (current == NULL)
+    {
         return false;
-    previous->next = current->next;
+    }
+    else if (current -> noMhs == nim)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool deleteNode(int nim){
+    Node* current = START;
+    Node* Previous = START;
+    if (serachNode(nim, Previous, current) == false)
+        return false;
+    Previous -> next = current -> next;
     if (current == START)
-        START = current->next;
+        START == current -> next;
     return true;
 }
+
 bool listEmpty() {
     if (START == NULL)
         return true;
     else
         return false;
-
 }
-void traverse() {
-    if (listEmpty()) {
+
+void traverse(){
+    if (listEmpty()){
         cout << "List Kosong" << endl;
         system("pause");
         system("cls");
@@ -70,12 +101,13 @@ void traverse() {
     else {
         Node* currentNode = START;
         while (currentNode != NULL) {
-            cout << "NIM: " << currentNode->noMhs << ", Nama: " << currentNode->name << endl;
-            currentNode = currentNode->next;
+            cout << "NIM : " << currentNode -> noMhs << ", Nama : " << currentNode -> name << endl;
+            currentNode = currentNode -> next;
         }
     }
 }
-void searchData() {
+
+void searchData(){
     if (listEmpty()) {
         cout << "List Kosong" << endl;
         system("pause");
@@ -84,75 +116,76 @@ void searchData() {
     }
     else {
         int nim;
-        cout << "Masukkan NIM: ";
+        cout << "Masukan NIM : ";
         cin >> nim;
         Node* currentNode = START;
         while (currentNode != NULL) {
-            if (currentNode->noMhs == nim) {
-                cout << "NIM: " << currentNode->noMhs << ",Nama: " << currentNode->name << endl;
+            if (currentNode -> noMhs == nim) {
+                cout << "NIM : " << currentNode -> noMhs << ", Nama : " << currentNode -> name << endl;
                 return;
             }
-            currentNode = currentNode->next;
+            currentNode = currentNode -> next;
         }
-        cout << "Data tidak ditemukan" << endl;
+        cout << "data tidak ditemukan" << endl;
     }
 }
+
 int main(){
     int pilihan;
     do
     {
         try
         {
-            cout << "1. Tambah Data" << endl;
-            cout << "2. Hapus Data" << endl;
-            cout << "3. Tampilkan Data" << endl;
-            cout << "4. Cari Data" << endl;
+            cout << "1. Tambah data" << endl;
+            cout << "2. Hapus data" << endl;
+            cout << "3. Tampilkan data" << endl;
+            cout << "4. Cari data" << endl;
             cout << "5. Keluar" << endl;
-            cout << "Pilihan: ";
+            cout << "Pilihan : ";
             cin >> pilihan;
             switch (pilihan)
-        {
-            case 1:
+            {
+            case 1 : 
                 addNode();
                 cout << "Data Berhasil Ditambahkan" << endl;
                 system("pause");
                 system("cls");
-                break;
-            case 2:
+            case 2 :
                 if (listEmpty())
                 {
-                    cout << "List kosong" << endl;
+                    cout << "List Kosong" << endl;
                     system("pause");
                     system("cls");
-                    break;
                 }
+
                 int nim;
-                cout << "Masukkan NIM: ";
+                cout << "Masukan NIM : ";
                 cin >> nim;
                 if (deleteNode(nim)) {
-                    cout << "nim: " << nim << "berhasil dihapus" << endl;
+                    cout << "nim : " << nim << " berhasil dihapus" << endl;
                     system("pause");
                     system("cls");
                 }
                 else
                     cout << "Data tidak ditemukan" << endl;
                 break;
-            case 3:
+            case 3 :
                 traverse();
                 break;
-            case 4: 
+            case 4 :
                 searchData();
                 break;
-            case 5: 
+            case 5 :
                 break;
-            default:
+            default : 
                 cout << "Pilihan tidak ada" << endl;
                 break;
             }
         }
-                catch (exception e)
+        catch (exception e)
         {
-            cout << "Terjadi kesalahan" << endl;
+            cout << "Terjadi Kesalahan" << endl;
         }
-    }
+    } while (pilihan != 5);
+    
 }
